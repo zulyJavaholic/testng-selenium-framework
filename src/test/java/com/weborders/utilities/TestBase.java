@@ -30,6 +30,7 @@ public abstract class TestBase {
 
     @AfterMethod
     public void tearDownMethod(ITestResult result) throws IOException {
+        // if ant test fails, it can detect it ,take a screen shot at the point and attach to report
         if (result.getStatus() == ITestResult.FAILURE) {
             String screenshotLocation = BrowserUtils.getScreenshot(result.getName());
             extentLogger.fail(result.getName());
@@ -45,17 +46,23 @@ public abstract class TestBase {
     @BeforeTest
     public void setUpTest() {
         report = new ExtentReports();
+       // this is our custom location of the report that will be generated,
+       // reports will be gernerated in the current project inside folder : test-output
+        //report fileName: report.html
         String filePath = System.getProperty("user.dir") + "/test-output/report.html";
-        htmlReporter = new ExtentHtmlReporter(filePath);
 
+        // initialize the htmlReporter with the path to the report
+        htmlReporter = new ExtentHtmlReporter(filePath);
+         // we attach the htmlreport to our report
         report.attachReporter(htmlReporter);
 
         report.setSystemInfo("Environment", "Staging");
         report.setSystemInfo("Browser", ConfigurationReader.getProperty("browser"));
         report.setSystemInfo("OS", System.getProperty("os.name"));
+        report.setSystemInfo("SDET","zulhumar");
         htmlReporter.config().setDocumentTitle("Prestashop Reports");
         htmlReporter.config().setReportName("Prestashop Automated Test Reports");
-//        htmlReporter.config().setTheme(Theme.DARK);
+        htmlReporter.config().setTheme(Theme.DARK);
 
     }
 

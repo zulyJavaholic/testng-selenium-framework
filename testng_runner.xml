@@ -1,10 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="WebOrders" verbose="1">
+<suite name="WebOrders" verbose="2">
 
     <test name="WebOrders Automated Tests">
-        <packages>
-            <package name=".*"></package>
-        </packages>
+        <classes>
+            <class name="com.weborders.tests.functional_tests.login.ErrorMessageValidationTest">
+                <methods>
+                <exclude name="wrongEmailTest"/>
+                </methods>
+            </class>
+        </classes>
     </test>
 
 </suite>
